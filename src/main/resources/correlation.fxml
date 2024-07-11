@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.dnu.fpm.CorrelationController">
+   <children>
+      <Label layoutX="179.0" layoutY="20.0" text="Кореляційне поле" textFill="#000000cc">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+            <JFXToggleButton fx:id="linToggle" onAction="#onLinearRegression" text="Лінійна регресія" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXToggleButton>
+            <JFXToggleButton fx:id="expToggle" onAction="#onExponentialRegression" text="Експоненціальна регресія" wrapText="true">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXToggleButton>
+         </children>
+      </HBox>
+      <StackPane fx:id="chartPane" />
+      <Separator layoutX="10.0" layoutY="833.0" prefHeight="20.0" prefWidth="650.0" />
+      <Label text="Статистичні характеристики ознак" textFill="#000000cc">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <HBox prefWidth="200.0" spacing="2.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#setFirstSample" prefHeight="25.0" prefWidth="120.0" style="-fx-background-radius: 5;" styleClass="btn" stylesheets="@style/login-btn.css" text="Показник X" textFill="#000000e5">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="12.0" layoutY="10.0" mnemonicParsing="false" onAction="#setSecondSample" prefHeight="25.0" prefWidth="120.0" style="-fx-background-radius: 5;" styleClass="btn" stylesheets="@style/login-btn.css" text="Показник Y" textFill="#000000e5">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets left="2.0" />
+         </VBox.margin>
+      </HBox>
+      <TableView fx:id="table" minHeight="-Infinity" prefHeight="230.0" prefWidth="600.0">
+         <columns>
+            <TableColumn fx:id="name" editable="false" prefWidth="211.0" sortable="false" text="Характеристика" />
+            <TableColumn fx:id="value" editable="false" minWidth="0.0" prefWidth="101.0" sortable="false" text="Оцінка" />
+            <TableColumn fx:id="standardDeviation" editable="false" prefWidth="195.0" sortable="false" text="Відхилення оцінки" />
+            <TableColumn fx:id="interval" editable="false" prefWidth="172.0" sortable="false" text="95% довірчий інтервал" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="90.0" prefWidth="28.0" text="{">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="skewnessLabel" text="A &lt;&gt; 0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="kurtosisLabel" text="E &lt;&gt; 0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Label text="⇒">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="resultLabel" text="...">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <Separator prefHeight="20.0" prefWidth="650.0" />
+      <Label layoutX="196.0" layoutY="84.0" text="Оцінювання коефіцієнтів кореляції" textFill="#000000cc">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="coefficientTable" layoutX="10.0" layoutY="155.0" minHeight="-Infinity" prefHeight="170.0" prefWidth="600.0">
+         <columns>
+            <TableColumn fx:id="coefficientName" editable="false" sortable="false" text="Коефіцієнт кореляції" />
+            <TableColumn fx:id="coefficientValue" editable="false" minWidth="0.0" prefWidth="101.0" sortable="false" text="Оцінка" />
+            <TableColumn fx:id="coefficientInterval" editable="false" prefWidth="195.0" sortable="false" text="Довірчий інтервал" />
+            <TableColumn editable="false" prefWidth="172.0" sortable="false" text="Перевірка значущості">
+               <columns>
+                  <TableColumn fx:id="coefficientTest" editable="false" prefWidth="75.0" sortable="false" text="Статистика" />
+                  <TableColumn fx:id="coefficientQuantile" editable="false" prefWidth="75.0" sortable="false" text="Квантиль" />
+                  <TableColumn fx:id="coefficientSignificance" editable="false" prefWidth="75.0" sortable="false" text="Висновок" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="coefficientResult" editable="false" prefWidth="195.0" sortable="false" text="Наявність взаємозв’язку  " />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Separator layoutX="10.0" layoutY="471.0" prefHeight="20.0" prefWidth="650.0" />
+      <Label layoutX="148.0" layoutY="499.0" text="Перевірка рівності коефіцієнта Пірсона та кореляційного відношення" textFill="#000000cc">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ratioLineTable" layoutX="10.0" layoutY="155.0" minHeight="-Infinity" prefHeight="100.0" prefWidth="600.0">
+         <columns>
+            <TableColumn fx:id="pearsonCoefficientValue" editable="false" prefWidth="211.0" sortable="false" text="Оцінка коефіцієнта Пірсона" />
+            <TableColumn fx:id="correlationRatioValue" editable="false" minWidth="0.0" prefWidth="101.0" sortable="false" text="Оцінка кореляційного відношення" />
+            <TableColumn fx:id="ratioLineTest" editable="false" prefWidth="100.0" sortable="false" text="Статистика" />
+            <TableColumn fx:id="ratioLineQuantile" editable="false" prefWidth="100.0" sortable="false" text="Квантиль" />
+            <TableColumn fx:id="ratioLineEquality" editable="false" prefWidth="100.0" sortable="false" text="Висновк" />
+            <TableColumn fx:id="ratioLineResult" editable="false" prefWidth="100.0" sortable="false" text="Вид залежності" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+   <padding>
+      <Insets top="10.0" />
+   </padding>
+</VBox>

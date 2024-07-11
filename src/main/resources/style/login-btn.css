@@ -1,0 +1,11 @@
+.btn{
+    -fx-background-color: #dccfcf;
+    -fx-cursor: hand;
+}
+.btn:hover {
+    -fx-opacity: 0.8;
+}
+
+.btn:focused {
+    -fx-background-color: #b9b4b4;
+}
